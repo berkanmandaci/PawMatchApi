@@ -79,11 +79,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowWebApp",
         policy => policy
-            .WithOrigins(
-                "https://api.sftysw.com",
-                "https://sftysw.com",
-                "https://www.sftysw.com"
-            )
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
     );

@@ -1,0 +1,14 @@
+# Build
+bin/
+obj/
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# Logs
+*.log
+logs/

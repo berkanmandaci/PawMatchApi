@@ -1,0 +1,12 @@
+# Build
+bin/
+obj/
+
+# Metadata / Cache (IDE)
+*.user
+*.suo
+*.cache
+
+# Temporary files
+*.tmp
+*.log

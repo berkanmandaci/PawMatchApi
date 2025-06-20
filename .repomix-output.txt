@@ -1,0 +1,2750 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files and files not matching ignore patterns, combined into a single document by Repomix.
+The content has been processed where empty lines have been removed.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+4. Repository files, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: **/*, .cursorrules, .cursor/rules/*, .clinerules, CLAUDE.md
+- Files matching these patterns are excluded: .*.*, **/*.pbxproj, **/node_modules/**, **/dist/**, **/build/**, **/compile/**, **/*.spec.*, **/*.pyc, **/.env, **/.env.*, **/*.env, **/*.env.*, **/*.lock, **/*.lockb, **/package-lock.*, **/pnpm-lock.*, **/*.tsbuildinfo, **/certdata.txt
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Empty lines have been removed from all files
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+<additional_info>
+
+</additional_info>
+
+</file_summary>
+
+<directory_structure>
+google-drive-credentials/
+.gitignore
+DevLog.md
+docker-compose.yml
+Dockerfile
+PawMatch.Api/.gitignore
+PawMatch.Api/appsettings.json
+PawMatch.Api/Controllers/BaseController.cs
+PawMatch.Api/Controllers/MatchesController.cs
+PawMatch.Api/Controllers/PhotosController.cs
+PawMatch.Api/Controllers/UsersController.cs
+PawMatch.Api/Controllers/WeatherForecastController.cs
+PawMatch.Api/PawMatch.Api.csproj
+PawMatch.Api/PawMatch.Api.http
+PawMatch.Api/Program.cs
+PawMatch.Api/Properties/launchSettings.json
+PawMatch.Api/WeatherForecast.cs
+PawMatch.Application/.gitignore
+PawMatch.Application/Class1.cs
+PawMatch.Application/DTOs/DiscoverUserPetDto.cs
+PawMatch.Application/DTOs/MatchActionDto.cs
+PawMatch.Application/DTOs/PhotoDto.cs
+PawMatch.Application/DTOs/PhotoUploadDto.cs
+PawMatch.Application/DTOs/UpdateProfileDto.cs
+PawMatch.Application/DTOs/UserAuthResponseDto.cs
+PawMatch.Application/DTOs/UserLoginDto.cs
+PawMatch.Application/DTOs/UserRegisterDto.cs
+PawMatch.Application/Interfaces/IDiscoverService.cs
+PawMatch.Application/Interfaces/IMatchService.cs
+PawMatch.Application/Interfaces/IPhotoService.cs
+PawMatch.Application/Interfaces/IUserService.cs
+PawMatch.Application/PawMatch.Application.csproj
+PawMatch.Application/Services/DiscoverService.cs
+PawMatch.Application/Services/MatchService.cs
+PawMatch.Application/Services/PhotoService.cs
+PawMatch.Application/Services/UserService.cs
+PawMatch.Domain/.gitignore
+PawMatch.Domain/Class1.cs
+PawMatch.Domain/Match.cs
+PawMatch.Domain/PawMatch.Domain.csproj
+PawMatch.Domain/Pet.cs
+PawMatch.Domain/Photo.cs
+PawMatch.Domain/User.cs
+PawMatch.Infrastructure/.gitignore
+PawMatch.Infrastructure/AppDbContext.cs
+PawMatch.Infrastructure/Class1.cs
+PawMatch.Infrastructure/Interfaces/IJwtProvider.cs
+PawMatch.Infrastructure/Interfaces/IStorageProvider.cs
+PawMatch.Infrastructure/Interfaces/IUserRepository.cs
+PawMatch.Infrastructure/Migrations/20250615010320_InitialCreate.cs
+PawMatch.Infrastructure/Migrations/20250615010320_InitialCreate.Designer.cs
+PawMatch.Infrastructure/PawMatch.Infrastructure.csproj
+PawMatch.Infrastructure/Providers/GoogleDriveStorageProvider.cs
+PawMatch.Infrastructure/Providers/JwtProvider.cs
+PawMatch.Infrastructure/Repositories/UserRepository.cs
+PawMatch.sln
+PawMatch.Tests/.gitignore
+PawMatch.Tests/CustomWebApplicationFactory.cs
+PawMatch.Tests/PawMatch.Tests.csproj
+PawMatch.Tests/PhotosControllerTests.cs
+PawMatch.Tests/UsersControllerTests.cs
+photofeature.md
+wait-for-it.sh
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+.idea/
+.env
+</file>
+
+<file path="DevLog.md">
+# 2024-06-15 Geliştirme Günlüğü
+
+- JWT authentication gerçek anahtar ile uygulandı, demo için 32+ karakterlik key kullanıldı
+- Swagger/OpenAPI açıklamaları login, register, profil ve matches endpointlerine eklendi
+- Dummy user, pet ve photo verileri için seed işlemi eklendi (development ortamında otomatik)
+- /api/v1/matches/discover ve /api/v1/matches (like/pass) endpointleri eklendi, JWT ile korumalı
+- Discover endpointi artık veritabanındaki tüm kullanıcıları (giriş yapan hariç), pet ve fotoğraflarıyla döndürüyor
+- Dockerfile ve docker-compose ile wait-for-it.sh entegrasyonu yapıldı, migration/seed işlemleri sorunsuz başlatılıyor
+- JWT üretimi ve doğrulaması için gerekli NuGet paketleri eklendi
+- Hatalı token, kısa anahtar, vs. gibi build ve runtime hataları giderildi
+- Kodda eksik kalan mock/boş metotlar gerçek veritabanı sorguları ile güncellendi
+
+# 2024-06-14 Geliştirme Günlüğü
+
+- Proje iskeleti oluşturuldu (Api, Application, Domain, Infrastructure, Tests katmanları)
+- Dockerfile ve docker-compose.yml hazırlandı, PostgreSQL entegrasyonu sağlandı
+- Gerekli NuGet paketleri ve projeler arası referanslar eklendi
+- User, Pet, Photo entity'leri ve DbContext yazıldı
+- Kullanıcı kayıt ve login için DTO, servis, repository, controller ve JWT altyapısı kuruldu
+- EF Core migration ve database update işlemleri için rehberlik edildi
+- Build ve migration hataları giderildi (referans, namespace, connection string, tablo eksikliği)
+- Proje başarıyla ayağa kaldırıldı ve temel API endpointleri çalışır hale getirildi
+
+# 2024-06-15 Geliştirme Günlüğü (Devamı)
+
+- JWT'den userId çekme işlemleri için merkezi `BaseController` oluşturuldu.
+- `UsersController`, `PhotosController`, `MatchesController` ve `WeatherForecastController` artık `BaseController`'dan miras alıyor ve `GetUserIdFromClaims()` fonksiyonunu kullanıyor.
+- `GetUserIdFromClaims()` fonksiyonundaki hatalı claim adı (`"nameid"` yerine `ClaimTypes.NameIdentifier`) düzeltildi, böylece kullanıcı kimlik doğrulama sorunları giderildi.
+- Fotoğraf yükleme endpointleri ve akışları tamamen test edildi ve başarılı şekilde çalışıyor (örn. `POST /api/v1/photos/user`).
+- `api/photofeature.md` ve `app/photofeature.md` dosyaları güncel backend ve frontend implementasyonlarına uygun şekilde revize edildi, hatalı endpoint isimleri ve akışlar düzeltildi.
+- `docs/PawMatch Backend Guidelines.markdown` dokümanı güncel backend mimarisi ve endpoint detaylarına göre revize edildi, eski ve hatalı bilgiler temizlendi.
+- `IDiscoverService` ve `DiscoverService` eklendi, DiscoverService şimdilik basit bir keşif listesi sağlıyor.
+- Fotoğraf görüntüleme endpointindeki erişim kontrolü güncellendi: kullanıcı kendi fotoğrafını, kendi evcil hayvanının fotoğrafını veya keşfedilenler listesindeki bir kullanıcının fotoğrafını görebiliyor.
+</file>
+
+<file path="docker-compose.yml">
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Database=pawmatch;Username=postgres;Password=mandaci12
+      - GoogleDrive__CredentialsPath=/app/credentials/credentials.json
+    volumes:
+      - ./credentials:/app/credentials
+    depends_on:
+      - db
+    command: ["/wait-for-it.sh", "db:5432", "--", "dotnet", "PawMatch.Api.dll"]
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=pawmatch
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mandaci12
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" 
+volumes:
+  db-data:
+</file>
+
+<file path="Dockerfile">
+# Build aşaması
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet restore
+RUN dotnet publish PawMatch.Api/PawMatch.Api.csproj -c Release -o /app/publish
+
+# Runtime aşaması
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+# ENTRYPOINT satırını kaldırıyorum, komut docker-compose'dan alınacak.
+</file>
+
+<file path="PawMatch.Api/.gitignore">
+# Build
+bin/
+obj/
+
+# User Secrets or local settings (optional)
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Swagger generated files (if any)
+swagger.json
+swagger-ui/
+
+# Uploaded files (if handled locally)
+wwwroot/uploads/
+uploads/
+</file>
+
+<file path="PawMatch.Api/appsettings.json">
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=db;Database=pawmatch;Username=postgres;Password=mysecretpassword"
+  }
+}
+</file>
+
+<file path="PawMatch.Api/Controllers/BaseController.cs">
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Security.Claims;
+namespace PawMatch.Api.Controllers
+{
+    public abstract class BaseController : ControllerBase
+    {
+        /// <summary>
+        /// JWT'den userId'yi çeken yardımcı fonksiyon (tüm controllerlarda kullanılabilir)
+        /// </summary>
+        protected int? GetUserIdFromClaims()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out var userId))
+                return userId;
+            return null;
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Api/Controllers/MatchesController.cs">
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+namespace PawMatch.Api.Controllers
+{
+    [ApiController]
+    [Route("api/v1/matches")]
+    [Authorize]
+    public class MatchesController : BaseController
+    {
+        private readonly IMatchService _matchService;
+        public MatchesController(IMatchService matchService)
+        {
+            _matchService = matchService;
+        }
+        /// <summary>
+        /// Kullanıcı/pet kartlarını listeler (discover).
+        /// </summary>
+        /// <param name="maxDistanceKm">Maksimum mesafe (opsiyonel)</param>
+        /// <param name="offset">Sayfalama başlangıcı (opsiyonel)</param>
+        /// <param name="limit">Sayfa boyutu (opsiyonel)</param>
+        /// <returns>Kullanıcı ve pet kartları</returns>
+        [HttpGet("discover")]
+        public async Task<IActionResult> Discover([FromQuery] int? maxDistanceKm, [FromQuery] int? offset, [FromQuery] int? limit)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == null)
+                return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+            var result = await _matchService.DiscoverAsync(userId.Value, maxDistanceKm, offset, limit);
+            return Ok(new { status = "success", data = result, error = (string)null });
+        }
+        /// <summary>
+        /// Beğenme/geçme işlemi yapar.
+        /// </summary>
+        /// <param name="dto">Beğenme/geçme bilgisi</param>
+        /// <returns>Eşleşme sonucu</returns>
+        [HttpPost]
+        public async Task<IActionResult> LikeOrPass([FromBody] MatchActionDto dto)
+        {
+            var result = await _matchService.LikeOrPassAsync(dto);
+            return Ok(new { status = "success", data = result, error = (string)null });
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Api/Controllers/PhotosController.cs">
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Linq;
+namespace PawMatch.Api.Controllers
+{
+    [ApiController]
+    [Route("api/v1/photos")]
+    [Authorize]
+    public class PhotosController : BaseController
+    {
+        private readonly IPhotoService _photoService;
+        public PhotosController(IPhotoService photoService)
+        {
+            _photoService = photoService;
+        }
+        public class UserPhotoUploadRequest
+        {
+            public IFormFile File { get; set; }
+        }
+        public class PetPhotoUploadRequest
+        {
+            public IFormFile File { get; set; }
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPhoto(string id)
+        {
+            try
+            {
+                var userId = GetUserIdFromClaims();
+                if (userId == null)
+                    return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+                var photoStream = await _photoService.GetPhotoStreamAsync(id, userId.Value);
+                // Content-Type ve Content-Disposition ayarla
+                // (Tipi DB'den de çekebilirsin, burada örnek olarak image/jpeg)
+                return File(photoStream, "image/jpeg", enableRangeProcessing: false);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { status = "error", error = ex.Message });
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int id)
+        {
+            try
+            {
+                await _photoService.DeletePhotoAsync(id);
+                return Ok(new { status = "success" });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { status = "error", error = ex.Message });
+            }
+        }
+        // Kullanıcıya fotoğraf yükleme
+        [HttpPost("user")]
+        public async Task<IActionResult> UploadUserPhoto([FromForm] UserPhotoUploadRequest request)
+        {
+            var file = request.File;
+            if (file == null || (file.ContentType != "image/jpeg" && file.ContentType != "image/png"))
+                return BadRequest(new { status = "error", error = "Sadece JPEG veya PNG dosya yüklenebilir." });
+            if (file.Length > 5 * 1024 * 1024)
+                return BadRequest(new { status = "error", error = "Dosya boyutu 5 MB'dan büyük olamaz." });
+            var userId = GetUserIdFromClaims();
+            if (userId == null)
+                return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+            using var stream = file.OpenReadStream();
+            var result = await _photoService.UploadPhotoAsync(
+                new PhotoUploadDto { UserId = userId.Value },
+                stream,
+                file.FileName,
+                file.ContentType
+            );
+            return Ok(new ApiResponse<PhotoDto> { Data = result, Status = "success" });
+        }
+        // Pet'e fotoğraf yükleme
+        [HttpPost("users/pets/{petId}/photos")]
+        [Authorize]
+        public async Task<IActionResult> UploadPetPhoto(int petId, [FromForm] PetPhotoUploadRequest request)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == null)
+                return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+            // Dummy sahiplik kontrolü (gerçek uygulamada DB'den kontrol edilmeli)
+            // if (!await _petService.UserOwnsPet(userId.Value, petId)) return Forbid();
+            var file = request.File;
+            if (file == null || (file.ContentType != "image/jpeg" && file.ContentType != "image/png"))
+                return BadRequest(new { status = "error", error = "Sadece JPEG veya PNG dosya yüklenebilir." });
+            if (file.Length > 5 * 1024 * 1024)
+                return BadRequest(new { status = "error", error = "Dosya boyutu 5 MB'dan büyük olamaz." });
+            using var stream = file.OpenReadStream();
+            var result = await _photoService.UploadPhotoAsync(
+                new PhotoUploadDto { PetId = petId },
+                stream,
+                file.FileName,
+                file.ContentType
+            );
+            return Ok(new ApiResponse<PhotoDto> { Data = result, Status = "success" });
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Api/Controllers/UsersController.cs">
+using Microsoft.AspNetCore.Mvc;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+namespace PawMatch.Api.Controllers
+{
+    [ApiController]
+    [Route("api/v1/users")]
+    public class UsersController : BaseController
+    {
+        private readonly IUserService _userService;
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+        /// <summary>
+        /// Kullanıcı girişi yapar.
+        /// </summary>
+        /// <remarks>
+        /// Başarılı yanıt örneği:
+        /// 
+        ///     POST /api/v1/users/login
+        ///     {
+        ///         "email": "kullanici@example.com",
+        ///         "password": "şifre"
+        ///     }
+        /// 
+        /// Yanıt:
+        ///     {
+        ///         "status": "success",
+        ///         "data": {
+        ///             "user": {
+        ///                 "id": 1,
+        ///                 "name": "Ali Veli",
+        ///                 "email": "kullanici@example.com",
+        ///                 "hasProfile": true
+        ///             },
+        ///             "token": "jwt-token-string"
+        ///         },
+        ///         "error": null
+        ///     }
+        /// </remarks>
+        /// <param name="dto">Kullanıcı giriş bilgileri</param>
+        /// <returns>Kullanıcı ve JWT token</returns>
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
+        {
+            try
+            {
+                var result = await _userService.LoginAsync(dto);
+                return Ok(new { data = result, status = "success", error = (string)null });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { data = (object)null, status = "error", error = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Kullanıcı profilini günceller.
+        /// </summary>
+        /// <remarks>
+        ///     PATCH /api/v1/users/profile
+        ///     {
+        ///         "name": "Ali Veli",
+        ///         "bio": "Kısa biyografi",
+        ///         "hasPet": true
+        ///     }
+        /// 
+        /// Yanıt:
+        ///     {
+        ///         "status": "success",
+        ///         "data": {
+        ///             "user": {
+        ///                 "id": 1,
+        ///                 "name": "Ali Veli",
+        ///                 "email": "kullanici@example.com",
+        ///                 "hasProfile": true
+        ///             },
+        ///             "token": "jwt-token-string"
+        ///         },
+        ///         "error": null
+        ///     }
+        /// </remarks>
+        /// <param name="dto">Profil güncelleme bilgileri</param>
+        /// <returns>Güncellenmiş kullanıcı ve JWT token</returns>
+        [HttpPatch("profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == null)
+                return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+            var result = await _userService.UpdateProfileAsync(userId.Value, dto);
+            return Ok(new { data = result, status = "success", error = (string)null });
+        }
+        /// <summary>
+        /// Yeni kullanıcı kaydı oluşturur.
+        /// </summary>
+        /// <remarks>
+        ///     POST /api/v1/users/register
+        ///     {
+        ///         "name": "Ali Veli",
+        ///         "email": "kullanici@example.com",
+        ///         "password": "sifre123"
+        ///     }
+        /// 
+        /// Yanıt:
+        ///     {
+        ///         "status": "success",
+        ///         "data": {
+        ///             "user": {
+        ///                 "id": 1,
+        ///                 "name": "Ali Veli",
+        ///                 "email": "kullanici@example.com",
+        ///                 "hasProfile": false
+        ///             },
+        ///             "token": "jwt-token-string"
+        ///         },
+        ///         "error": null
+        ///     }
+        /// </remarks>
+        /// <param name="dto">Kullanıcı kayıt bilgileri</param>
+        /// <returns>Kayıtlı kullanıcı ve JWT token</returns>
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto dto)
+        {
+            var result = await _userService.RegisterAsync(dto);
+            return Ok(new { data = result, status = "success", error = (string)null });
+        }
+        /// <summary>
+        /// Kullanıcının kendi hesabını siler.
+        /// </summary>
+        /// <remarks>
+        /// Sadece kimliği doğrulanmış kullanıcılar kendi hesaplarını silebilir.
+        /// Yanıt:
+        ///     {
+        ///         "status": "success",
+        ///         "data": null,
+        ///         "error": null
+        ///     }
+        /// </remarks>
+        /// <returns>Başarı veya hata mesajı</returns>
+        [HttpDelete("me")]
+        [Authorize]
+        public async Task<IActionResult> DeleteMyAccount()
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == null)
+                return Unauthorized(new { status = "error", error = "Kullanıcı kimliği doğrulanamadı." });
+            try
+            {
+                await _userService.DeleteUserAsync(userId.Value);
+                return Ok(new { status = "success", data = (object)null, error = (string)null });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { status = "error", error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (e.g., using a logger)
+                return StatusCode(500, new { status = "error", error = "Hesap silinirken bir hata oluştu." });
+            }
+        }
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetMyProfile()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
+            {
+                return Unauthorized(new ApiResponse<object> { Status = "Error", Error = "Invalid user ID in token." });
+            }
+            var userDto = await _userService.GetUserByIdAsync(userId);
+            return Ok(new ApiResponse<UserDto> { Data = userDto, Status = "Success" });
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Api/Controllers/WeatherForecastController.cs">
+using Microsoft.AspNetCore.Mvc;
+namespace PawMatch.Api.Controllers;
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : BaseController
+{
+    private static readonly string[] Summaries = new[]
+    {
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    };
+    private readonly ILogger<WeatherForecastController> _logger;
+    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    {
+        _logger = logger;
+    }
+    [HttpGet(Name = "GetWeatherForecast")]
+    public IEnumerable<WeatherForecast> Get()
+    {
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        })
+        .ToArray();
+    }
+}
+</file>
+
+<file path="PawMatch.Api/PawMatch.Api.csproj">
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PawMatch.Application\PawMatch.Application.csproj" />
+      <ProjectReference Include="..\PawMatch.Domain\PawMatch.Domain.csproj" />
+      <ProjectReference Include="..\PawMatch.Infrastructure\PawMatch.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
+</file>
+
+<file path="PawMatch.Api/PawMatch.Api.http">
+@PawMatch.Api_HostAddress = http://localhost:5193
+
+GET {{PawMatch.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+</file>
+
+<file path="PawMatch.Api/Program.cs">
+using Microsoft.EntityFrameworkCore;
+using PawMatch.Infrastructure;
+using PawMatch.Infrastructure.Interfaces;
+using PawMatch.Infrastructure.Repositories;
+using PawMatch.Infrastructure.Providers;
+using PawMatch.Application.Interfaces;
+using PawMatch.Application.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+namespace PawMatch.Api;
+public class Program
+{
+    public static void Main(string[] args)
+    {
+var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:80", "http://0.0.0.0:8080");
+// Add services to the container.
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PawMatch API", Version = "v1" });
+    // JWT Bearer Auth için:
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+// DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// DI
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IDiscoverService, DiscoverService>();
+builder.Services.AddSingleton<IStorageProvider, GoogleDriveStorageProvider>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes("super-secret-key-which-is-at-least-32-chars!"))
+        };
+    });
+var app = builder.Build();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+//app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+// Sadece development ortamında otomatik migration uygula
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        PawMatch.Infrastructure.AppDbContext.AppDbContextSeed.Seed(db);
+    }
+}
+app.Run();
+    }
+}
+</file>
+
+<file path="PawMatch.Api/Properties/launchSettings.json">
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:44725",
+      "sslPort": 44399
+    }
+  },
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5193",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7073;http://localhost:5193",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+</file>
+
+<file path="PawMatch.Api/WeatherForecast.cs">
+namespace PawMatch.Api;
+public class WeatherForecast
+{
+    public DateOnly Date { get; set; }
+    public int TemperatureC { get; set; }
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public string? Summary { get; set; }
+}
+</file>
+
+<file path="PawMatch.Application/.gitignore">
+# Build
+bin/
+obj/
+
+# Any cached metadata or analysis results
+*.cache
+</file>
+
+<file path="PawMatch.Application/Class1.cs">
+namespace PawMatch.Application;
+public class Class1
+{
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/DiscoverUserPetDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class DiscoverUserPetDto
+    {
+        public DiscoverUserDto User { get; set; }
+        public DiscoverPetDto Pet { get; set; } // null olabilir
+    }
+    public class DiscoverUserDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<DiscoverPhotoDto> Photos { get; set; }
+    }
+    public class DiscoverPetDto
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public int Age { get; set; }
+        public List<DiscoverPhotoDto> Photos { get; set; }
+    }
+    public class DiscoverPhotoDto
+    {
+        public string? GoogleDriveFileId { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/MatchActionDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class MatchActionDto
+    {
+        public int User1Id { get; set; }
+        public int User2Id { get; set; }
+        public bool Liked { get; set; }
+    }
+    public class MatchResultDto
+    {
+        public int MatchId { get; set; }
+        public bool Confirmed { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/PhotoDto.cs">
+using System;
+namespace PawMatch.Application.DTOs
+{
+    public class PhotoDto
+    {
+        public int Id { get; set; }
+        public string FileName { get; set; }
+        public string ContentType { get; set; }
+        public string GoogleDriveFileId { get; set; }
+        public DateTime UploadDate { get; set; }
+        public int? UserId { get; set; }
+        public int? PetId { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/PhotoUploadDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class PhotoUploadDto
+    {
+        public int? UserId { get; set; }
+        public int? PetId { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/UpdateProfileDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class UpdateProfileDto
+    {
+        public string Name { get; set; }
+        public string Bio { get; set; }
+        public bool HasPet { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/UserAuthResponseDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class ApiResponse<T>
+    {
+        public T Data { get; set; }
+        public string Status { get; set; }
+        public object? Error { get; set; } // Can be null or an error object
+    }
+    public class UserAuthResponseDto
+    {
+        public UserDto User { get; set; }
+        public string Token { get; set; }
+    }
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string? Bio { get; set; }
+        public bool HasPet { get; set; }
+        public bool HasProfile { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/UserLoginDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class UserLoginDto
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/DTOs/UserRegisterDto.cs">
+namespace PawMatch.Application.DTOs
+{
+    public class UserRegisterDto
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Interfaces/IDiscoverService.cs">
+using System.Collections.Generic;
+using System.Threading.Tasks;
+namespace PawMatch.Application.Interfaces
+{
+    public interface IDiscoverService
+    {
+        Task<List<int>> GetDiscoveredUserIdsAsync(int currentUserId);
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Interfaces/IMatchService.cs">
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+namespace PawMatch.Application.Interfaces
+{
+    public interface IMatchService
+    {
+        Task<List<DiscoverUserPetDto>> DiscoverAsync(int userId, int? maxDistanceKm, int? offset, int? limit);
+        Task<MatchResultDto> LikeOrPassAsync(MatchActionDto dto);
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Interfaces/IPhotoService.cs">
+using System.IO;
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+namespace PawMatch.Application.Interfaces
+{
+    public interface IPhotoService
+    {
+        Task<PhotoDto> UploadPhotoAsync(PhotoUploadDto dto, Stream fileStream, string fileName = null, string contentType = null);
+        Task<Stream> GetPhotoStreamAsync(string photoId, int userId);
+        Task DeletePhotoAsync(int photoId);
+        Task DeleteUserPhotosAsync(int userId);
+        Task DeletePetPhotosAsync(int petId);
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Interfaces/IUserService.cs">
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+namespace PawMatch.Application.Interfaces
+{
+    public interface IUserService
+    {
+        Task<UserAuthResponseDto> RegisterAsync(UserRegisterDto dto);
+        Task<UserAuthResponseDto> LoginAsync(UserLoginDto dto);
+        Task<UserAuthResponseDto> UpdateProfileAsync(int id, UpdateProfileDto dto);
+        Task DeleteUserAsync(int id);
+        Task<UserDto> GetUserByIdAsync(int id);
+    }
+}
+</file>
+
+<file path="PawMatch.Application/PawMatch.Application.csproj">
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\PawMatch.Domain\PawMatch.Domain.csproj" />
+      <ProjectReference Include="..\PawMatch.Infrastructure\PawMatch.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.*" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>
+</file>
+
+<file path="PawMatch.Application/Services/DiscoverService.cs">
+using PawMatch.Application.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+using PawMatch.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+namespace PawMatch.Application.Services
+{
+    public class DiscoverService : IDiscoverService
+    {
+        private readonly AppDbContext _db;
+        public DiscoverService(AppDbContext db)
+        {
+            _db = db;
+        }
+        public async Task<List<int>> GetDiscoveredUserIdsAsync(int currentUserId)
+        {
+            // Bu şimdilik sahte bir keşif algoritmasıdır.
+            // Gerçek uygulamada, kullanıcı tercihlerine, konuma, eşleşme algoritmalarına vb. göre kullanıcılar bulunacaktır.
+            // Şimdilik, geçerli kullanıcı dışındaki tüm kullanıcıları döndürüyoruz (basitlik adına).
+            // İdeal olarak, MatchesController'daki discover algoritması burada uygulanmalı veya çağrılmalıdır.
+            var allUserIds = await _db.Users
+                                    .Where(u => u.Id != currentUserId)
+                                    .Select(u => u.Id)
+                                    .ToListAsync();
+            // Sadece ilk 5 tanesini döndürüyoruz, MatchesController'daki discover mantığına uygun olarak.
+            return allUserIds.Take(5).ToList();
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Services/MatchService.cs">
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using PawMatch.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+namespace PawMatch.Application.Services
+{
+    public class MatchService : IMatchService
+    {
+        private readonly AppDbContext _db;
+        public MatchService(AppDbContext db)
+        {
+            _db = db;
+        }
+        public async Task<List<DiscoverUserPetDto>> DiscoverAsync(int userId, int? maxDistanceKm, int? offset, int? limit)
+        {
+            // Giriş yapan kullanıcı hariç tüm kullanıcıları, pet ve fotoğraflarıyla birlikte getir
+            var users = await _db.Users
+                .Where(u => u.Id != userId)
+                .Include(u => u.Photos)
+                .Include(u => u.Pets)
+                    .ThenInclude(p => p.Photos)
+                .ToListAsync();
+            var result = users.Select(u => new DiscoverUserPetDto
+            {
+                User = new DiscoverUserDto
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Photos = u.Photos.Select(p => new DiscoverPhotoDto { GoogleDriveFileId = p.GoogleDriveFileId }).ToList()
+                },
+                Pet = u.Pets.FirstOrDefault() == null ? null : new DiscoverPetDto
+                {
+                    Name = u.Pets.First().Name,
+                    Type = u.Pets.First().Type,
+                    Age = u.Pets.First().Age,
+                    Photos = u.Pets.First().Photos.Select(pp => new DiscoverPhotoDto { GoogleDriveFileId = pp.GoogleDriveFileId }).ToList()
+                }
+            }).ToList();
+            return result;
+        }
+        public async Task<MatchResultDto> LikeOrPassAsync(MatchActionDto dto)
+        {
+            // TODO: Gerçek eşleşme mantığı eklenecek
+            return new MatchResultDto { MatchId = 1, Confirmed = false };
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Services/PhotoService.cs">
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using PawMatch.Domain;
+using PawMatch.Infrastructure.Interfaces;
+using PawMatch.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Collections.Generic;
+namespace PawMatch.Application.Services
+{
+    public class PhotoService : IPhotoService
+    {
+        private readonly AppDbContext _db;
+        private readonly IStorageProvider _storageProvider;
+        private readonly IDiscoverService _discoverService;
+        public PhotoService(AppDbContext db, IStorageProvider storageProvider, IDiscoverService discoverService)
+        {
+            _db = db;
+            _storageProvider = storageProvider;
+            _discoverService = discoverService;
+        }
+        public async Task<PhotoDto> UploadPhotoAsync(PhotoUploadDto dto, Stream fileStream, string fileName = null, string contentType = null)
+        {
+            // Sınır ve tip kontrolleri üst katmanda yapılmalı
+            var fileId = await _storageProvider.UploadAsync(fileStream, fileName, contentType);
+            var photo = new Photo
+            {
+                FileName = fileName,
+                GoogleDriveFileId = fileId,
+                UploadDate = DateTime.UtcNow,
+                UserId = dto.UserId,
+                PetId = dto.PetId
+            };
+            _db.Photos.Add(photo);
+            await _db.SaveChangesAsync();
+            return new PhotoDto
+            {
+                Id = photo.Id,
+                FileName = photo.FileName,
+                ContentType = contentType,
+                GoogleDriveFileId = fileId,
+                UploadDate = photo.UploadDate,
+                UserId = photo.UserId,
+                PetId = photo.PetId
+            };
+        }
+        public async Task<Stream> GetPhotoStreamAsync(string googleDriveFileId, int userId)
+        {
+            var photo = await _db.Photos.FirstOrDefaultAsync(p => p.GoogleDriveFileId == googleDriveFileId);
+            if (photo == null) throw new Exception("Photo not found");
+            // Sahiplik kontrolü
+            // 1. Kendi fotoğrafı ise erişime izin ver
+            if (photo.UserId == userId) return await _storageProvider.DownloadAsync(photo.GoogleDriveFileId);
+            // 2. Fotoğraf bir pet'e aitse ve pet'in sahibi kendi ise erişime izin ver
+            // TODO: Pet sahiplik kontrolünü PetService üzerinden yap
+            if (photo.PetId.HasValue)
+            {
+                var petOwnerId = await _db.Pets
+                                            .Where(p => p.Id == photo.PetId.Value)
+                                            .Select(p => p.UserId)
+                                            .FirstOrDefaultAsync();
+                if (petOwnerId == userId) return await _storageProvider.DownloadAsync(photo.GoogleDriveFileId);
+            }
+            // 3. Fotoğraf sahibi keşif listesinde ise erişime izin ver
+            if (photo.UserId.HasValue)
+            {
+                var discoveredUserIds = await _discoverService.GetDiscoveredUserIdsAsync(userId);
+                if (discoveredUserIds.Contains(photo.UserId.Value))
+                {
+                    return await _storageProvider.DownloadAsync(photo.GoogleDriveFileId);
+                }
+            }
+            // Diğer durumlarda erişimi reddet
+            throw new UnauthorizedAccessException("You are not authorized to view this photo.");
+        }
+        public async Task DeletePhotoAsync(int photoId)
+        {
+            var photo = await _db.Photos.FindAsync(photoId);
+            if (photo == null) throw new Exception("Photo not found");
+            await _storageProvider.DeleteAsync(photo.GoogleDriveFileId);
+            _db.Photos.Remove(photo);
+            await _db.SaveChangesAsync();
+        }
+        public async Task DeleteUserPhotosAsync(int userId)
+        {
+            var userPhotos = await _db.Photos.Where(p => p.UserId == userId).ToListAsync();
+            foreach (var photo in userPhotos)
+            {
+                if (!string.IsNullOrEmpty(photo.GoogleDriveFileId))
+                {
+                    await _storageProvider.DeleteAsync(photo.GoogleDriveFileId);
+                }
+                _db.Photos.Remove(photo);
+            }
+            await _db.SaveChangesAsync();
+        }
+        public async Task DeletePetPhotosAsync(int petId)
+        {
+            var petPhotos = await _db.Photos.Where(p => p.PetId == petId).ToListAsync();
+            foreach (var photo in petPhotos)
+            {
+                if (!string.IsNullOrEmpty(photo.GoogleDriveFileId))
+                {
+                    await _storageProvider.DeleteAsync(photo.GoogleDriveFileId);
+                }
+                _db.Photos.Remove(photo);
+            }
+            await _db.SaveChangesAsync();
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Application/Services/UserService.cs">
+using System.Threading.Tasks;
+using PawMatch.Application.DTOs;
+using PawMatch.Application.Interfaces;
+using PawMatch.Domain;
+using PawMatch.Infrastructure.Interfaces;
+using PawMatch.Infrastructure;
+using BCrypt.Net;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+namespace PawMatch.Application.Services
+{
+    public class UserService : IUserService
+    {
+        private readonly IJwtProvider _jwtProvider;
+        private readonly IUserRepository _userRepository;
+        private readonly IPhotoService _photoService;
+        private readonly AppDbContext _dbContext;
+        public UserService(IUserRepository userRepository, IJwtProvider jwtProvider, IPhotoService photoService, AppDbContext dbContext)
+        {
+            _userRepository = userRepository;
+            _jwtProvider = jwtProvider;
+            _photoService = photoService;
+            _dbContext = dbContext;
+        }
+        public async Task<UserAuthResponseDto> RegisterAsync(UserRegisterDto dto)
+        {
+            var user = new User
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+            };
+            await _userRepository.AddAsync(user);
+            var token = _jwtProvider.GenerateToken(user);
+            return new UserAuthResponseDto
+            {
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Bio = user.Bio,
+                    HasPet = user.HasPet,
+                    HasProfile = !string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Bio) && user.HasPet
+                },
+                Token = token
+            };
+        }
+        public async Task<UserAuthResponseDto> LoginAsync(UserLoginDto dto)
+        {
+            var user = await _userRepository.GetByEmailAsync(dto.Email);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                throw new UnauthorizedAccessException("Geçersiz kimlik bilgileri");
+            var token = _jwtProvider.GenerateToken(user);
+            return new UserAuthResponseDto
+            {
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Bio = user.Bio,
+                    HasPet = user.HasPet,
+                    HasProfile = !string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Bio) && user.HasPet
+                },
+                Token = token
+            };
+        }
+        public async Task<UserAuthResponseDto> UpdateProfileAsync(int id, UpdateProfileDto dto)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                throw new KeyNotFoundException("Kullanıcı bulunamadı");
+            user.Name = dto.Name;
+            user.Bio = dto.Bio;
+            user.HasPet = dto.HasPet;
+            await _userRepository.UpdateAsync(user);
+            var token = _jwtProvider.GenerateToken(user);
+            return new UserAuthResponseDto
+            {
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Bio = user.Bio,
+                    HasPet = user.HasPet,
+                    HasProfile = !string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Bio) && user.HasPet
+                },
+                Token = token
+            };
+        }
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            var pets = _dbContext.Pets.Where(p => p.UserId == id).ToList();
+            foreach (var pet in pets)
+            {
+                await _photoService.DeletePetPhotosAsync(pet.Id);
+                _dbContext.Pets.Remove(pet);
+            }
+            await _dbContext.SaveChangesAsync();
+            await _photoService.DeleteUserPhotosAsync(id);
+            await _userRepository.DeleteAsync(id);
+        }
+        public async Task<UserDto> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            return new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Bio = user.Bio,
+                HasPet = user.HasPet,
+                HasProfile = user.HasProfile
+            };
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Domain/.gitignore">
+# Build
+bin/
+obj/
+
+# Metadata / Cache (IDE)
+*.user
+*.suo
+*.cache
+
+# Temporary files
+*.tmp
+*.log
+</file>
+
+<file path="PawMatch.Domain/Class1.cs">
+namespace PawMatch.Domain;
+public class Class1
+{
+}
+</file>
+
+<file path="PawMatch.Domain/Match.cs">
+namespace PawMatch.Domain
+{
+    public class Match
+    {
+        public int Id { get; set; }
+        public int User1Id { get; set; }
+        public User User1 { get; set; }
+        public int User2Id { get; set; }
+        public User User2 { get; set; }
+        public bool Confirmed { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Domain/PawMatch.Domain.csproj">
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>
+</file>
+
+<file path="PawMatch.Domain/Pet.cs">
+using System.Collections.Generic;
+namespace PawMatch.Domain
+{
+    public class Pet
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public int Age { get; set; }
+        public string? Gender { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public List<Photo> Photos { get; set; } = new();
+    }
+}
+</file>
+
+<file path="PawMatch.Domain/Photo.cs">
+using System;
+namespace PawMatch.Domain
+{
+    public class Photo
+    {
+        public int Id { get; set; }
+        public string FileName { get; set; }
+        public string? GoogleDriveFileId { get; set; }
+        public DateTime UploadDate { get; set; }
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+        public int? PetId { get; set; }
+        public Pet? Pet { get; set; }
+    }
+}
+</file>
+
+<file path="PawMatch.Domain/User.cs">
+using System.Collections.Generic;
+namespace PawMatch.Domain
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
+        public string? Bio { get; set; }
+        public bool HasPet { get; set; } = false;
+        public bool HasProfile { get; set; } = false;
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public List<Photo> Photos { get; set; } = new();
+        public List<Pet> Pets { get; set; } = new();
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/.gitignore">
+# Build
+bin/
+obj/
+
+# EF Core migration snapshots (if not needed in version control)
+Migrations/*Snapshot.cs
+</file>
+
+<file path="PawMatch.Infrastructure/AppDbContext.cs">
+using Microsoft.EntityFrameworkCore;
+using PawMatch.Domain;
+namespace PawMatch.Infrastructure
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public static class AppDbContextSeed
+        {
+            public static void Seed(AppDbContext db)
+            {
+                if (!db.Users.Any())
+                {
+                    var user1 = new User { Name = "Ali Veli", Email = "ali@example.com", PasswordHash = "dummyhash1", Bio = "Kedisever", HasPet = true };
+                    var user2 = new User { Name = "Zeynep", Email = "zeynep@example.com", PasswordHash = "dummyhash2", Bio = "Köpeksever", HasPet = false };
+                    db.Users.AddRange(user1, user2);
+                    db.SaveChanges();
+                    var pet1 = new Pet { Name = "Boncuk", Type = "Kedi", Age = 2, UserId = user1.Id };
+                    db.Pets.Add(pet1);
+                    db.SaveChanges();
+                    var photo1 = new Photo { FileName = "ali1.jpg", GoogleDriveFileId = "dummy-file-id-1", UploadDate = DateTime.UtcNow, UserId = user1.Id };
+                    var photo2 = new Photo { FileName = "boncuk1.jpg", GoogleDriveFileId = "dummy-file-id-2", UploadDate = DateTime.UtcNow, PetId = pet1.Id };
+                    db.Photos.AddRange(photo1, photo2);
+                    db.SaveChanges();
+                }
+            }
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Class1.cs">
+namespace PawMatch.Infrastructure;
+public class Class1
+{
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Interfaces/IJwtProvider.cs">
+using PawMatch.Domain;
+namespace PawMatch.Infrastructure.Interfaces
+{
+    public interface IJwtProvider
+    {
+        string GenerateToken(User user);
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Interfaces/IStorageProvider.cs">
+using System.IO;
+using System.Threading.Tasks;
+namespace PawMatch.Infrastructure.Interfaces
+{
+    public interface IStorageProvider
+    {
+        Task<string> UploadAsync(Stream fileStream, string fileName, string contentType);
+        Task<Stream> DownloadAsync(string fileId);
+        Task DeleteAsync(string fileId);
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Interfaces/IUserRepository.cs">
+using System.Threading.Tasks;
+using PawMatch.Domain;
+namespace PawMatch.Infrastructure.Interfaces
+{
+    public interface IUserRepository
+    {
+        Task AddAsync(User user);
+        Task<User> GetByEmailAsync(string email);
+        Task<User> GetByIdAsync(int id);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int id);
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Migrations/20250615010320_InitialCreate.cs">
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+#nullable disable
+namespace PawMatch.Infrastructure.Migrations
+{
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    Bio = table.Column<string>(type: "text", nullable: true),
+                    HasPet = table.Column<bool>(type: "boolean", nullable: false),
+                    Latitude = table.Column<double>(type: "double precision", nullable: true),
+                    Longitude = table.Column<double>(type: "double precision", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "Pets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Age = table.Column<int>(type: "integer", nullable: false),
+                    Gender = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    GoogleDriveFileId = table.Column<string>(type: "text", nullable: true),
+                    UploadDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    PetId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_Pets_PetId",
+                        column: x => x.PetId,
+                        principalTable: "Pets",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Photos_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Pets_UserId",
+                table: "Pets",
+                column: "UserId");
+            migrationBuilder.CreateIndex(
+                name: "IX_Photos_PetId",
+                table: "Photos",
+                column: "PetId");
+            migrationBuilder.CreateIndex(
+                name: "IX_Photos_UserId",
+                table: "Photos",
+                column: "UserId");
+        }
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Photos");
+            migrationBuilder.DropTable(
+                name: "Pets");
+            migrationBuilder.DropTable(
+                name: "Users");
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Migrations/20250615010320_InitialCreate.Designer.cs">
+// <auto-generated />
+using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using PawMatch.Infrastructure;
+#nullable disable
+namespace PawMatch.Infrastructure.Migrations
+{
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20250615010320_InitialCreate")]
+    partial class InitialCreate
+    {
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.17")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            modelBuilder.Entity("PawMatch.Domain.Pet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<int>("Age")
+                        .HasColumnType("integer");
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+                    b.HasKey("Id");
+                    b.HasIndex("UserId");
+                    b.ToTable("Pets");
+                });
+            modelBuilder.Entity("PawMatch.Domain.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.Property<string>("GoogleDriveFileId");
+                    b.Property<int?>("PetId")
+                        .HasColumnType("integer");
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("timestamp with time zone");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+                    b.HasKey("Id");
+                    b.HasIndex("PetId");
+                    b.HasIndex("UserId");
+                    b.ToTable("Photos");
+                });
+            modelBuilder.Entity("PawMatch.Domain.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.Property<bool>("HasPet")
+                        .HasColumnType("boolean");
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("double precision");
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("double precision");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+                    b.HasKey("Id");
+                    b.ToTable("Users");
+                });
+            modelBuilder.Entity("PawMatch.Domain.Pet", b =>
+                {
+                    b.HasOne("PawMatch.Domain.User", "User")
+                        .WithMany("Pets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                    b.Navigation("User");
+                });
+            modelBuilder.Entity("PawMatch.Domain.Photo", b =>
+                {
+                    b.HasOne("PawMatch.Domain.Pet", "Pet")
+                        .WithMany("Photos")
+                        .HasForeignKey("PetId");
+                    b.HasOne("PawMatch.Domain.User", "User")
+                        .WithMany("Photos")
+                        .HasForeignKey("UserId");
+                    b.Navigation("Pet");
+                    b.Navigation("User");
+                });
+            modelBuilder.Entity("PawMatch.Domain.Pet", b =>
+                {
+                    b.Navigation("Photos");
+                });
+            modelBuilder.Entity("PawMatch.Domain.User", b =>
+                {
+                    b.Navigation("Pets");
+                    b.Navigation("Photos");
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/PawMatch.Infrastructure.csproj">
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\PawMatch.Domain\PawMatch.Domain.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.*" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.*" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.*" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.*" />
+      <PackageReference Include="Google.Apis.Drive.v3" Version="1.*" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
+    </ItemGroup>
+
+</Project>
+</file>
+
+<file path="PawMatch.Infrastructure/Providers/GoogleDriveStorageProvider.cs">
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Drive.v3.Data;
+using Google.Apis.Services;
+using PawMatch.Infrastructure.Interfaces;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+namespace PawMatch.Infrastructure.Providers
+{
+    public class GoogleDriveStorageProvider : IStorageProvider
+    {
+        private readonly DriveService _driveService;
+        public GoogleDriveStorageProvider()
+        {
+            var credentialsPath = Environment.GetEnvironmentVariable("GoogleDrive__CredentialsPath")
+                ?? "api/credentials/credentials.json";
+            var credential = GoogleCredential.FromFile(credentialsPath)
+                .CreateScoped(DriveService.Scope.Drive);
+            _driveService = new DriveService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "PawMatch"
+            });
+        }
+        public async Task<string> UploadAsync(Stream fileStream, string fileName, string contentType)
+        {
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File
+            {
+                Name = fileName,
+                Parents = new[] { "root" }
+            };
+            var request = _driveService.Files.Create(fileMetadata, fileStream, contentType);
+            request.Fields = "id";
+            var file = await request.UploadAsync();
+            if (file.Status != Google.Apis.Upload.UploadStatus.Completed)
+                throw new Exception("Google Drive upload failed: " + file.Exception?.Message);
+            return request.ResponseBody.Id;
+        }
+        public async Task<Stream> DownloadAsync(string fileId)
+        {
+            var stream = new MemoryStream();
+            var request = _driveService.Files.Get(fileId);
+            await request.DownloadAsync(stream);
+            stream.Position = 0;
+            return stream;
+        }
+        public async Task DeleteAsync(string fileId)
+        {
+            await _driveService.Files.Delete(fileId).ExecuteAsync();
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Providers/JwtProvider.cs">
+using PawMatch.Domain;
+using PawMatch.Infrastructure.Interfaces;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+namespace PawMatch.Infrastructure.Providers
+{
+    public class JwtProvider : IJwtProvider
+    {
+        public string GenerateToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("super-secret-key-which-is-at-least-32-chars!");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Name ?? "")
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.Infrastructure/Repositories/UserRepository.cs">
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PawMatch.Domain;
+using PawMatch.Infrastructure.Interfaces;
+namespace PawMatch.Infrastructure.Repositories
+{
+    public class UserRepository : IUserRepository
+    {
+        private readonly AppDbContext _context;
+        public UserRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+        public async Task AddAsync(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+        public async Task UpdateAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+            // If user is not found, we can choose to throw an exception or handle it silently
+            // For now, we will assume the UserService handles the KeyNotFoundException
+        }
+    }
+}
+</file>
+
+<file path="PawMatch.sln">
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("PawMatch.Domain/PawMatch.Domain.csproj") = "PawMatch.Domain", "PawMatch.Domain/PawMatch.Domain.csproj", "{DOMAIN_GUID}"
+EndProject
+Project("PawMatch.Application/PawMatch.Application.csproj") = "PawMatch.Application", "PawMatch.Application/PawMatch.Application.csproj", "{APPLICATION_GUID}"
+EndProject
+Project("PawMatch.Infrastructure/PawMatch.Infrastructure.csproj") = "PawMatch.Infrastructure", "PawMatch.Infrastructure/PawMatch.Infrastructure.csproj", "{INFRA_GUID}"
+EndProject
+Project("PawMatch.Api/PawMatch.Api.csproj") = "PawMatch.Api", "PawMatch.Api/PawMatch.Api.csproj", "{API_GUID}"
+EndProject
+Project("PawMatch.Tests/PawMatch.Tests.csproj") = "PawMatch.Tests", "PawMatch.Tests/PawMatch.Tests.csproj", "{TESTS_GUID}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+</file>
+
+<file path="PawMatch.Tests/.gitignore">
+# Build
+bin/
+obj/
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# Logs
+*.log
+logs/
+</file>
+
+<file path="PawMatch.Tests/CustomWebApplicationFactory.cs">
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using PawMatch.Infrastructure;
+using PawMatch.Api; // PawMatch.Api projesini import edin
+using Moq; // Add this using statement
+using PawMatch.Infrastructure.Interfaces; // Add this using statement
+using System.Linq; // Already there, but ensure it is
+using System.Collections.Concurrent; // Add for ConcurrentDictionary
+namespace PawMatch.Tests;
+public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
+{
+    // In-memory storage for mocked files
+    private readonly ConcurrentDictionary<string, (string FileName, Stream Content)> _mockedFiles = new ConcurrentDictionary<string, (string, Stream)>();
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureServices(services =>
+        {
+            // Remove the app's DbContext registration
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType ==
+                    typeof(DbContextOptions<AppDbContext>));
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+            // Remove the real IStorageProvider registration if it exists
+            var storageProviderDescriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(IStorageProvider));
+            if (storageProviderDescriptor != null)
+            {
+                services.Remove(storageProviderDescriptor);
+            }
+            // Add a DbContext using an in-memory database for testing
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("InMemoryDbForTesting");
+            });
+            // Register a mocked IStorageProvider
+            var mockStorageProvider = new Mock<IStorageProvider>();
+            // Configure mock behavior for UploadAsync
+            mockStorageProvider.Setup(s => s.UploadAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
+                               .ReturnsAsync((Stream stream, string fileName, string contentType) =>
+                               {
+                                   var fileId = Guid.NewGuid().ToString();
+                                   var memoryStream = new MemoryStream();
+                                   stream.CopyTo(memoryStream);
+                                   memoryStream.Position = 0; // Reset position for future reads
+                                   _mockedFiles[fileId] = (fileName, memoryStream);
+                                   return fileId;
+                               });
+            // Configure mock behavior for DeleteAsync
+            mockStorageProvider.Setup(s => s.DeleteAsync(It.IsAny<string>()))
+                               .Returns((string fileId) =>
+                               {
+                                   _mockedFiles.TryRemove(fileId, out _);
+                                   return Task.CompletedTask;
+                               });
+            // Configure mock behavior for DownloadAsync
+            mockStorageProvider.Setup(s => s.DownloadAsync(It.IsAny<string>()))
+                               .ReturnsAsync((string fileId) =>
+                               {
+                                   if (_mockedFiles.TryGetValue(fileId, out var fileData))
+                                   {
+                                       fileData.Content.Position = 0; // Ensure stream is at the beginning
+                                       return fileData.Content;
+                                   }
+                                   // Return an empty stream or throw an exception for not found files
+                                   return new MemoryStream(); 
+                               });
+            services.AddSingleton(mockStorageProvider.Object);
+            // Build the service provider.
+            var sp = services.BuildServiceProvider();
+            // Create a scope to obtain a reference to the database contexts
+            using (var scope = sp.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<AppDbContext>();
+                // Ensure the database is created and is clean for each test.
+                db.Database.EnsureDeleted(); // Clear the database before creating
+                db.Database.EnsureCreated();
+                // Seed the database with some test data.
+                // We can add simple data here for tests, or use the existing seed method if suitable.
+                AppDbContext.AppDbContextSeed.Seed(db);
+            }
+        });
+    }
+}
+</file>
+
+<file path="PawMatch.Tests/PawMatch.Tests.csproj">
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="xunit" Version="2.*"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
+        <PackageReference Include="Moq" Version="4.*"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.*" />
+        <ProjectReference Include="..\PawMatch.Api\PawMatch.Api.csproj" />
+        <ProjectReference Include="..\PawMatch.Application\PawMatch.Application.csproj" />
+        <ProjectReference Include="..\PawMatch.Domain\PawMatch.Domain.csproj" />
+        <ProjectReference Include="..\PawMatch.Infrastructure\PawMatch.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
+
+</Project>
+</file>
+
+<file path="PawMatch.Tests/PhotosControllerTests.cs">
+using System.Net.Http.Json;
+using Xunit;
+using System.Threading.Tasks;
+using PawMatch.Api;
+using PawMatch.Application.DTOs;
+using System.Net.Http.Headers;
+using System.IO;
+namespace PawMatch.Tests;
+public class PhotosControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client;
+    public PhotosControllerTests(CustomWebApplicationFactory<Program> factory)
+    {
+        _client = factory.CreateClient();
+    }
+    [Fact]
+    public async Task UploadUserPhoto_ValidFileAndAuth_ReturnsSuccess()
+    {
+        // Arrange: Register and log in a user
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Photo Uploader",
+            Email = "photoupload@example.com",
+            Password = "Password123!"
+        };
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        registerResponse.EnsureSuccessStatusCode();
+        var registerApiResponse = await registerResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        var authToken = registerApiResponse.Data.Token;
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        // Create a mock file (testphoto.jpg)
+        var filePath = "testphoto.jpg";
+        var fileContent = "This is a dummy image content for testing.";
+        var memoryStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(fileContent));
+        var content = new MultipartFormDataContent();
+        var streamContent = new StreamContent(memoryStream);
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+        content.Add(streamContent, "file", filePath);
+        // Act
+        var response = await _client.PostAsync("/api/v1/photos/user", content);
+        // Assert
+        response.EnsureSuccessStatusCode(); // Expect 200 OK
+        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<PhotoDto>>();
+        Assert.NotNull(apiResponse);
+        Assert.Equal("success", apiResponse.Status);
+        Assert.NotNull(apiResponse.Data);
+        Assert.Equal(filePath, apiResponse.Data.FileName);
+        Assert.NotNull(apiResponse.Data.GoogleDriveFileId);
+        // Clean up
+        _client.DefaultRequestHeaders.Authorization = null;
+    }
+    [Fact]
+    public async Task GetPhoto_ValidIdAndAuth_ReturnsPhotoStream()
+    {
+        // Arrange: Register, log in, and upload a photo
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Photo Getter",
+            Email = "photoget@example.com",
+            Password = "Password123!"
+        };
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        registerResponse.EnsureSuccessStatusCode();
+        var registerApiResponse = await registerResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        var authToken = registerApiResponse.Data.Token;
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        var filePath = "testphoto_get.jpg";
+        var fileContent = "This is content for getting a photo.";
+        var memoryStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(fileContent));
+        var content = new MultipartFormDataContent();
+        var streamContent = new StreamContent(memoryStream);
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+        content.Add(streamContent, "file", filePath);
+        var uploadResponse = await _client.PostAsync("/api/v1/photos/user", content);
+        uploadResponse.EnsureSuccessStatusCode();
+        var uploadApiResponse = await uploadResponse.Content.ReadFromJsonAsync<ApiResponse<PhotoDto>>();
+        var googleDriveFileId = uploadApiResponse.Data.GoogleDriveFileId;
+        // Act: Get the photo stream
+        var getResponse = await _client.GetAsync($"/api/v1/photos/{googleDriveFileId}");
+        // Assert: Check if the response is successful and content matches
+        getResponse.EnsureSuccessStatusCode();
+        var returnedContent = await getResponse.Content.ReadAsStringAsync();
+        Assert.Equal(fileContent, returnedContent);
+        // Clean up
+        _client.DefaultRequestHeaders.Authorization = null;
+    }
+    [Fact]
+    public async Task DeletePhoto_ValidIdAndAuth_ReturnsSuccess()
+    {
+        // Arrange: Register, log in, and upload a photo
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Photo Deleter",
+            Email = "photodelete@example.com",
+            Password = "Password123!"
+        };
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        registerResponse.EnsureSuccessStatusCode();
+        var registerApiResponse = await registerResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        var authToken = registerApiResponse.Data.Token;
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        var filePath = "testphoto_delete.jpg";
+        var fileContent = "This is content for deleting a photo.";
+        var memoryStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(fileContent));
+        var content = new MultipartFormDataContent();
+        var streamContent = new StreamContent(memoryStream);
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+        content.Add(streamContent, "file", filePath);
+        var uploadResponse = await _client.PostAsync("/api/v1/photos/user", content);
+        uploadResponse.EnsureSuccessStatusCode();
+        var uploadApiResponse = await uploadResponse.Content.ReadFromJsonAsync<ApiResponse<PhotoDto>>();
+        var photoId = uploadApiResponse.Data.Id; // Use PhotoDto.Id for deletion
+        var googleDriveFileId = uploadApiResponse.Data.GoogleDriveFileId; // Store GoogleDriveFileId for later check
+        // Act: Delete the photo
+        var deleteResponse = await _client.DeleteAsync($"/api/v1/photos/{photoId}");
+        // Assert: Check if the deletion was successful
+        deleteResponse.EnsureSuccessStatusCode(); // Expect 200 OK
+        var deleteApiResponse = await deleteResponse.Content.ReadFromJsonAsync<ApiResponse<object>>();
+        Assert.NotNull(deleteApiResponse);
+        Assert.Equal("success", deleteApiResponse.Status);
+        // Optional: Try to get the photo again to confirm deletion (expect 404 Not Found)
+        var getResponseAfterDelete = await _client.GetAsync($"/api/v1/photos/{googleDriveFileId}");
+        Assert.Equal(System.Net.HttpStatusCode.NotFound, getResponseAfterDelete.StatusCode); // Changed from Unauthorized to NotFound
+        // Clean up
+        _client.DefaultRequestHeaders.Authorization = null;
+    }
+}
+</file>
+
+<file path="PawMatch.Tests/UsersControllerTests.cs">
+using System.Net.Http.Json;
+using Xunit;
+using System.Threading.Tasks;
+using PawMatch.Api;
+using PawMatch.Application.DTOs;
+using System.Net.Http.Headers;
+namespace PawMatch.Tests;
+// Removed duplicated DTO definitions from here, they are now referenced from PawMatch.Application.DTOs
+public class UsersControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client;
+    public UsersControllerTests(CustomWebApplicationFactory<Program> factory)
+    {
+        _client = factory.CreateClient();
+    }
+    [Fact]
+    public async Task Register_ValidUser_ReturnsSuccessAndToken()
+    {
+        // Arrange
+        var request = new UserRegisterDto
+        {
+            Name = "Test User",
+            Email = "test@example.com",
+            Password = "Password123!"
+        };
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/v1/users/register", request);
+        // Assert
+        response.EnsureSuccessStatusCode(); // Status Code 200-299
+        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        Assert.NotNull(apiResponse);
+        Assert.Equal("success", apiResponse.Status);
+        Assert.NotNull(apiResponse.Data);
+        Assert.NotNull(apiResponse.Data.User);
+        Assert.NotNull(apiResponse.Data.Token);
+        Assert.Equal(request.Email, apiResponse.Data.User.Email);
+    }
+    [Fact]
+    public async Task Login_ValidCredentials_ReturnsSuccessAndToken()
+    {
+        // Arrange: First, register a user to ensure we have credentials to log in with
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Login Test User",
+            Email = "logintest@example.com",
+            Password = "Password123!"
+        };
+        await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        var loginRequest = new UserLoginDto
+        {
+            Email = registerRequest.Email,
+            Password = registerRequest.Password
+        };
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/v1/users/login", loginRequest);
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        Assert.NotNull(apiResponse);
+        Assert.Equal("success", apiResponse.Status);
+        Assert.NotNull(apiResponse.Data);
+        Assert.NotNull(apiResponse.Data.User);
+        Assert.NotNull(apiResponse.Data.Token);
+        Assert.Equal(loginRequest.Email, apiResponse.Data.User.Email);
+    }
+    [Fact]
+    public async Task UpdateProfile_ValidData_ReturnsSuccessAndUpdatedUser()
+    {
+        // Arrange: Register and log in a user to get a valid token
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Profile Update User",
+            Email = "profileupdate@example.com",
+            Password = "Password123!"
+        };
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        registerResponse.EnsureSuccessStatusCode();
+        var registerApiResponse = await registerResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        var authToken = registerApiResponse.Data.Token;
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+        var updateRequest = new UpdateProfileDto
+        {
+            Name = "Updated Name",
+            Bio = "Updated Bio",
+            HasPet = true
+        };
+        // Act
+        var response = await _client.PatchAsJsonAsync("/api/v1/users/profile", updateRequest);
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        Assert.NotNull(apiResponse);
+        Assert.Equal("success", apiResponse.Status);
+        Assert.NotNull(apiResponse.Data);
+        Assert.NotNull(apiResponse.Data.User);
+        Assert.Equal(updateRequest.Name, apiResponse.Data.User.Name);
+        Assert.Equal(updateRequest.Bio, apiResponse.Data.User.Bio);
+        Assert.Equal(updateRequest.HasPet, apiResponse.Data.User.HasPet);
+        // Clean up the Authorization header for subsequent tests
+        _client.DefaultRequestHeaders.Authorization = null;
+    }
+    [Fact]
+    public async Task DeleteMyAccount_ValidUser_ReturnsSuccessAndDeletesAccount()
+    {
+        // Arrange: Register and log in a user to get a valid token
+        var registerRequest = new UserRegisterDto
+        {
+            Name = "Delete User Test",
+            Email = "deleteuser@example.com",
+            Password = "Password123!"
+        };
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/users/register", registerRequest);
+        registerResponse.EnsureSuccessStatusCode();
+        var registerApiResponse = await registerResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        var authToken = registerApiResponse.Data.Token;
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
+        // Act: Delete the user's account
+        var deleteResponse = await _client.DeleteAsync("/api/v1/users/me");
+        // Assert: Check if the deletion was successful
+        deleteResponse.EnsureSuccessStatusCode(); // Expect 200 OK
+        var deleteApiResponse = await deleteResponse.Content.ReadFromJsonAsync<ApiResponse<object>>();
+        Assert.NotNull(deleteApiResponse);
+        Assert.Equal("success", deleteApiResponse.Status);
+        // Optional: Try to log in with the deleted user's credentials to confirm deletion
+        _client.DefaultRequestHeaders.Authorization = null; // Clear header for next request
+        var loginRequest = new UserLoginDto
+        {
+            Email = registerRequest.Email,
+            Password = registerRequest.Password
+        };
+        var loginResponseAfterDelete = await _client.PostAsJsonAsync("/api/v1/users/login", loginRequest);
+        // Assert: Expect Unauthorized (401) as the account should be deleted
+        Assert.Equal(System.Net.HttpStatusCode.Unauthorized, loginResponseAfterDelete.StatusCode);
+    }
+    [Fact]
+    public async Task GetUserProfile_ValidUser_ReturnsSuccessAndProfile()
+    {
+        // Arrange
+        var client = _client;
+        var registerDto = new UserRegisterDto { Name = "Test User", Email = "test.profile@example.com", Password = "Password123!" };
+        var registerResponse = await client.PostAsJsonAsync("/api/v1/users/register", registerDto);
+        registerResponse.EnsureSuccessStatusCode();
+        var loginDto = new UserLoginDto { Email = "test.profile@example.com", Password = "Password123!" };
+        var loginResponse = await client.PostAsJsonAsync("/api/v1/users/login", loginDto);
+        loginResponse.EnsureSuccessStatusCode();
+        var authResponse = await loginResponse.Content.ReadFromJsonAsync<ApiResponse<UserAuthResponseDto>>();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResponse?.Data?.Token);
+        // Act
+        var profileResponse = await client.GetAsync("/api/v1/users/me");
+        // Assert
+        profileResponse.EnsureSuccessStatusCode();
+        var apiResponse = await profileResponse.Content.ReadFromJsonAsync<ApiResponse<UserDto>>();
+        Assert.NotNull(apiResponse);
+        Assert.Equal("Success", apiResponse.Status);
+        Assert.NotNull(apiResponse.Data);
+        Assert.Equal(registerDto.Email, apiResponse.Data.Email);
+        Assert.Equal(registerDto.Name, apiResponse.Data.Name);
+        Assert.False(apiResponse.Data.HasPet);
+        Assert.False(apiResponse.Data.HasProfile);
+    }
+}
+</file>
+
+<file path="photofeature.md">
+# PawMatch - Google Drive Fotoğraf Özelliği Teknik Planı (Güncel)
+
+## Amaç
+Kullanıcıların profil ve pet fotoğraflarını güvenli şekilde Google Drive'a yükleyip, yalnızca yetkili kullanıcıların erişebileceği bir sistem kurmak.
+
+---
+
+## 1. Genel Süreç Akışı
+1. Kullanıcı, API üzerinden fotoğraf yükleme isteği gönderir (multipart/form-data).
+2. Backend, dosya tipini ve boyutunu doğrular (JPEG/PNG, max 5 MB).
+3. Backend, Google Drive API ile dosyayı "private" olarak yükler.
+4. Fotoğrafın Google Drive dosya ID'si ve meta verileri veritabanına kaydedilir.
+5. Kullanıcıya, photo id ve meta verileriyle birlikte başarılı yanıt döner (Google Drive linki paylaşılmaz).
+6. Fotoğraf görüntüleme isteğinde, backend kimlik doğrulaması (JWT) yapar, **erişim yetkisini kontrol eder (kendi fotoğrafı, kendi evcil hayvanının fotoğrafı veya keşfedilen bir kullanıcının fotoğrafı ise)**, sadece yetkili kullanıcıya Google Drive'dan dosyayı çeker ve stream eder.
+7. Hiçbir zaman doğrudan Google Drive linki paylaşılmaz, public erişim veya indirme yetkisi verilmez.
+8. Silme isteğinde, hem Google Drive'dan hem de veritabanından silinir.
+
+---
+
+## 2. Teknik Detaylar
+### 2.1. Fotoğraf Yükleme Endpoint'i
+- **Kullanıcı profil fotoğrafı:** `POST /api/v1/photos/user`
+- **Pet fotoğrafı:** `POST /api/v1/photos/users/pets/{petId}/photos`
+- Girdi: Multipart form-data (JPEG/PNG, max 5 MB)
+- İşlem:
+  - Dosya validasyonu (tip ve boyut)
+  - Maksimum 10 fotoğraf limiti kontrolü
+  - Google Drive API ile yükleme (private)
+  - Meta verileri DB'ye kaydetme (GoogleDriveFileId, FileName, UploadDate, UserId/PetId)
+  - Yanıt örneği:
+    ```json
+    {
+      "data": {
+        "photo": {
+          "id": 3,
+          "fileName": "output.jpg",
+          "contentType": "image/jpeg",
+          "googleDriveFileId": "...",
+          "uploadDate": "2025-06-15T16:00:00.950Z",
+          "userId": 3,
+          "petId": null
+        }
+      },
+      "status": "success"
+    }
+    ```
+  - Kota veya sınır aşımlarında anlamlı hata mesajı dönülür.
+
+### 2.2. Fotoğraf Görüntüleme Endpoint'i
+- `GET /api/v1/photos/{id}`
+- **`id` parametresi Google Drive Dosya Kimliğidir (string).**
+- **JWT ile kimlik doğrulama zorunlu** (Tüm controllerlarda merkezi olarak uygulanır)
+- **Erişim Yetkilendirme Kuralları:**
+  - Sadece fotoğrafın sahibi olan kullanıcılar kendi fotoğraflarını görebilir.
+  - Fotoğraf bir evcil hayvana aitse, sadece evcil hayvanın sahibi olan kullanıcılar fotoğrafı görebilir.
+  - Fotoğrafın sahibi, isteyen kullanıcının keşif listesinde (`/api/v1/matches/discover`) yer alıyorsa, fotoğraf görüntülenebilir.
+  - Diğer tüm durumlarda erişim engellenir (`401 Unauthorized`).
+- Doğrudan Google Drive linki veya public erişim yok
+- Google Drive API ile dosya çekilir, HTTP response ile stream edilir
+- **Content-Type:** image/jpeg veya image/png (dosya tipine göre otomatik)
+- **Content-Disposition:** inline (indirme başlatılmaz)
+- (Opsiyonel) İleride thumbnail veya farklı boyut desteği için endpoint genişletilebilir tasarlanmalı
+
+### 2.3. Fotoğraf Silme Endpoint'i
+- `DELETE /api/v1/photos/{id}`
+- JWT ile kimlik doğrulama
+- Sadece yetkili kullanıcı erişebilir
+- Fotoğraf hem Google Drive'dan hem de veritabanından silinir
+- Başarılı silme sonrası anlamlı yanıt, hata durumunda açıklayıcı mesaj
+
+### 2.4. Güvenlik
+- Google Drive'daki dosyalar her zaman private (paylaşım linki yok)
+- Sadece backend servis hesabı erişebilir
+- Kullanıcıya doğrudan Google Drive linki veya indirme yetkisi verilmez
+- API erişimi JWT ile korunur (userId claim'i merkezi fonksiyonla okunur)
+- **Fotoğraf görüntüleme için gelişmiş yetkilendirme (sahip, keşif listesi)**
+- Maksimum 10 fotoğraf/kullanıcı veya pet
+- Dosya boyutu ve tip kontrolü zorunlu
+
+### 2.5. Sınırlar ve Kotalar
+- Google Drive: 15 GB ücretsiz depolama, 20.000 API isteği/gün
+- Sınır aşılırsa veya kota dolarsa, kullanıcıya anlamlı hata mesajı dönülür
+
+### 2.6. Test ve Bakım
+- Birim test: Yükleme, erişim, yetkilendirme, hata senaryoları
+- Mock Google Drive client ile test
+- Swagger/OpenAPI dokümantasyonu
+- Tüm kimlik doğrulama ve userId okuma işlemleri merkezi fonksiyon ile yapılır
+
+---
+
+## 3. Alternatifler ve Notlar
+- AWS S3 gibi alternatifler ileride değerlendirilebilir
+- Google Drive entegrasyonu, servis hesabı kimlik bilgileriyle yönetilir
+- Fotoğraf silme işlemi: Hem Google Drive'dan hem DB'den silinir
+- (Opsiyonel) Thumbnail veya farklı boyut desteği için mimari genişletilebilir olmalı (ör: yeni endpoint veya parametre ile orijinal/thumbnail seçimi)
+- Tüm endpointler JWT ile korunur, erişim ve hata yönetimi detaylı şekilde ele alınmıştır.
+
+---
+
+## 4. Özet Akış Diyagramı
+
+1. Kullanıcı → API: Fotoğraf yükle
+2. API → Google Drive: Yükle (private)
+3. API → DB: Meta veriyi kaydet
+4. Kullanıcı → API: Fotoğrafı görüntüle (JWT ile korumalı, yetki kontrolü)
+5. API → Google Drive: Fotoğrafı çek
+6. API → Kullanıcı: Fotoğrafı stream et (Content-Type ve Content-Disposition doğru ayarlanır, indirme yok)
+7. Kullanıcı → API: Fotoğrafı sil
+8. API → Google Drive & DB: Fotoğrafı sil
+
+---
+
+Bu plan, PawMatch backend API diziniyle sınırlı olup, güvenli ve kontrollü bir fotoğraf yönetimi sağlar. Tüm endpointler JWT ile korunur, erişim ve hata yönetimi detaylı şekilde ele alınmıştır.
+</file>
+
+<file path="wait-for-it.sh">
+#!/usr/bin/env bash
+# Use this script to test if a given TCP host/port are available
+WAITFORIT_cmdname=${0##*/}
+echoerr() { if [[ $WAITFORIT_QUIET -ne 1 ]]; then echo "$@" 1>&2; fi }
+usage()
+{
+    cat << USAGE >&2
+Usage:
+    $WAITFORIT_cmdname host:port [-s] [-t timeout] [-- command args]
+    -h HOST | --host=HOST       Host or IP under test
+    -p PORT | --port=PORT       TCP port under test
+                                Alternatively, you specify the host and port as host:port
+    -s | --strict               Only execute subcommand if the test succeeds
+    -q | --quiet                Don't output any status messages
+    -t TIMEOUT | --timeout=TIMEOUT
+                                Timeout in seconds, zero for no timeout
+    -- COMMAND ARGS             Execute command with args after the test finishes
+USAGE
+    exit 1
+}
+wait_for()
+{
+    if [[ $WAITFORIT_TIMEOUT -gt 0 ]]; then
+        echoerr "$WAITFORIT_cmdname: waiting $WAITFORIT_TIMEOUT seconds for $WAITFORIT_HOST:$WAITFORIT_PORT"
+    else
+        echoerr "$WAITFORIT_cmdname: waiting for $WAITFORIT_HOST:$WAITFORIT_PORT without a timeout"
+    fi
+    WAITFORIT_start_ts=$(date +%s)
+    while :
+    do
+        if [[ $WAITFORIT_ISBUSY -eq 1 ]]; then
+            nc -z $WAITFORIT_HOST $WAITFORIT_PORT
+            WAITFORIT_result=$?
+        else
+            (echo -n > /dev/tcp/$WAITFORIT_HOST/$WAITFORIT_PORT) >/dev/null 2>&1
+            WAITFORIT_result=$?
+        fi
+        if [[ $WAITFORIT_result -eq 0 ]]; then
+            WAITFORIT_end_ts=$(date +%s)
+            echoerr "$WAITFORIT_cmdname: $WAITFORIT_HOST:$WAITFORIT_PORT is available after $((WAITFORIT_end_ts - WAITFORIT_start_ts)) seconds"
+            break
+        fi
+        sleep 1
+    done
+    return $WAITFORIT_result
+}
+wait_for_wrapper()
+{
+    # In order to support SIGINT during timeout: http://unix.stackexchange.com/a/57692
+    if [[ $WAITFORIT_QUIET -eq 1 ]]; then
+        timeout $WAITFORIT_BUSYTIMEFLAG $WAITFORIT_TIMEOUT $0 --quiet --child --host=$WAITFORIT_HOST --port=$WAITFORIT_PORT --timeout=$WAITFORIT_TIMEOUT &
+    else
+        timeout $WAITFORIT_BUSYTIMEFLAG $WAITFORIT_TIMEOUT $0 --child --host=$WAITFORIT_HOST --port=$WAITFORIT_PORT --timeout=$WAITFORIT_TIMEOUT &
+    fi
+    WAITFORIT_PID=$!
+    trap "kill -INT -$WAITFORIT_PID" INT
+    wait $WAITFORIT_PID
+    WAITFORIT_RESULT=$?
+    if [[ $WAITFORIT_RESULT -ne 0 ]]; then
+        echoerr "$WAITFORIT_cmdname: timeout occurred after waiting $WAITFORIT_TIMEOUT seconds for $WAITFORIT_HOST:$WAITFORIT_PORT"
+    fi
+    return $WAITFORIT_RESULT
+}
+# process arguments
+while [[ $# -gt 0 ]]
+do
+    case "$1" in
+        *:* )
+        WAITFORIT_hostport=(${1//:/ })
+        WAITFORIT_HOST=${WAITFORIT_hostport[0]}
+        WAITFORIT_PORT=${WAITFORIT_hostport[1]}
+        shift 1
+        ;;
+        --child)
+        WAITFORIT_CHILD=1
+        shift 1
+        ;;
+        -q | --quiet)
+        WAITFORIT_QUIET=1
+        shift 1
+        ;;
+        -s | --strict)
+        WAITFORIT_STRICT=1
+        shift 1
+        ;;
+        -h)
+        WAITFORIT_HOST="$2"
+        if [[ $WAITFORIT_HOST == "" ]]; then break; fi
+        shift 2
+        ;;
+        --host=*)
+        WAITFORIT_HOST="${1#*=}"
+        shift 1
+        ;;
+        -p)
+        WAITFORIT_PORT="$2"
+        if [[ $WAITFORIT_PORT == "" ]]; then break; fi
+        shift 2
+        ;;
+        --port=*)
+        WAITFORIT_PORT="${1#*=}"
+        shift 1
+        ;;
+        -t)
+        WAITFORIT_TIMEOUT="$2"
+        if [[ $WAITFORIT_TIMEOUT == "" ]]; then break; fi
+        shift 2
+        ;;
+        --timeout=*)
+        WAITFORIT_TIMEOUT="${1#*=}"
+        shift 1
+        ;;
+        --)
+        shift
+        WAITFORIT_CLI=("$@")
+        break
+        ;;
+        --help)
+        usage
+        ;;
+        *)
+        echoerr "Unknown argument: $1"
+        usage
+        ;;
+    esac
+done
+if [[ "$WAITFORIT_HOST" == "" || "$WAITFORIT_PORT" == "" ]]; then
+    echoerr "Error: you need to provide a host and port to test."
+    usage
+fi
+WAITFORIT_TIMEOUT=${WAITFORIT_TIMEOUT:-15}
+WAITFORIT_STRICT=${WAITFORIT_STRICT:-0}
+WAITFORIT_CHILD=${WAITFORIT_CHILD:-0}
+WAITFORIT_QUIET=${WAITFORIT_QUIET:-0}
+# Check to see if timeout is from busybox?
+WAITFORIT_TIMEOUT_PATH=$(type -p timeout)
+WAITFORIT_TIMEOUT_PATH=$(realpath $WAITFORIT_TIMEOUT_PATH 2>/dev/null || readlink -f $WAITFORIT_TIMEOUT_PATH)
+WAITFORIT_BUSYTIMEFLAG=""
+if [[ $WAITFORIT_TIMEOUT_PATH =~ "busybox" ]]; then
+    WAITFORIT_ISBUSY=1
+    # Check if busybox timeout uses -t flag
+    # (recent Alpine versions don't support -t anymore)
+    if timeout &>/dev/stdout | grep -q -e '-t '; then
+        WAITFORIT_BUSYTIMEFLAG="-t"
+    fi
+else
+    WAITFORIT_ISBUSY=0
+fi
+if [[ $WAITFORIT_CHILD -gt 0 ]]; then
+    wait_for
+    WAITFORIT_RESULT=$?
+    exit $WAITFORIT_RESULT
+else
+    if [[ $WAITFORIT_TIMEOUT -gt 0 ]]; then
+        wait_for_wrapper
+        WAITFORIT_RESULT=$?
+    else
+        wait_for
+        WAITFORIT_RESULT=$?
+    fi
+fi
+if [[ $WAITFORIT_CLI != "" ]]; then
+    if [[ $WAITFORIT_RESULT -ne 0 && $WAITFORIT_STRICT -eq 1 ]]; then
+        echoerr "$WAITFORIT_cmdname: strict mode, refusing to execute subprocess"
+        exit $WAITFORIT_RESULT
+    fi
+    exec "${WAITFORIT_CLI[@]}"
+else
+    exit $WAITFORIT_RESULT
+fi
+</file>
+
+</files>

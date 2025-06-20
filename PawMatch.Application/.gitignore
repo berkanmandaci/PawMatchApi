@@ -1,0 +1,6 @@
+# Build
+bin/
+obj/
+
+# Any cached metadata or analysis results
+*.cache

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PawMatch.Application\PawMatch.Application.csproj" />
+      <ProjectReference Include="..\PawMatch.Domain\PawMatch.Domain.csproj" />
+      <ProjectReference Include="..\PawMatch.Infrastructure\PawMatch.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

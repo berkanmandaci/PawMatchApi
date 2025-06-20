@@ -1,0 +1,6 @@
+# Build
+bin/
+obj/
+
+# EF Core migration snapshots (if not needed in version control)
+Migrations/*Snapshot.cs

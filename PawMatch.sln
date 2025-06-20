@@ -1,0 +1,39 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawMatch.Domain", "PawMatch.Domain/PawMatch.Domain.csproj", "{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawMatch.Application", "PawMatch.Application/PawMatch.Application.csproj", "{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawMatch.Infrastructure", "PawMatch.Infrastructure/PawMatch.Infrastructure.csproj", "{43542647-5483-4625-A2F6-894D7951E00A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawMatch.Api", "PawMatch.Api/PawMatch.Api.csproj", "{7F93D292-D228-4989-B0E5-7F9874577145}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawMatch.Tests", "PawMatch.Tests/PawMatch.Tests.csproj", "{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CA9996-D9C2-4FB4-A293-3F412AB97DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABBB121-3284-42FD-ADA8-CD07A5612CB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43542647-5483-4625-A2F6-894D7951E00A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F93D292-D228-4989-B0E5-7F9874577145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82857D4F-42CE-4EC7-B067-1D2DEB8FA860}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,16 @@
+# Build
+bin/
+obj/
+
+# User Secrets or local settings (optional)
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Swagger generated files (if any)
+swagger.json
+swagger-ui/
+
+# Uploaded files (if handled locally)
+wwwroot/uploads/
+uploads/

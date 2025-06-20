@@ -4,10 +4,10 @@ WORKDIR /src
 
 # Sadece proje dosyalarını kopyala. Bunlar nadiren değişir.
 COPY PawMatch.sln .
-COPY api/PawMatch.Api/PawMatch.Api.csproj api/PawMatch.Api/
-COPY api/PawMatch.Application/PawMatch.Application.csproj api/PawMatch.Application/
-COPY api/PawMatch.Domain/PawMatch.Domain.csproj api/PawMatch.Domain/
-COPY api/PawMatch.Infrastructure/PawMatch.Infrastructure.csproj api/PawMatch.Infrastructure/
+COPY PawMatch.Api/PawMatch.Api.csproj api/PawMatch.Api/
+COPY PawMatch.Application/PawMatch.Application.csproj api/PawMatch.Application/
+COPY PawMatch.Domain/PawMatch.Domain.csproj api/PawMatch.Domain/
+COPY PawMatch.Infrastructure/PawMatch.Infrastructure.csproj api/PawMatch.Infrastructure/
 # ... diğer projeleriniz varsa onlar da eklenecek ...
 
 # Bu katman sadece .csproj dosyaları değiştiğinde yeniden çalışır.
@@ -15,7 +15,7 @@ RUN dotnet restore PawMatch.sln
 
 # Şimdi kodun geri kalanını kopyala
 COPY . .
-WORKDIR "/src/api/PawMatch.Api"
+WORKDIR "/src/PawMatch.Api"
 RUN dotnet build "PawMatch.Api.csproj" -c Release -o /app/build
 
 # Stage 2: Uygulamayı yayınla (publish)

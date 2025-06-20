@@ -22,7 +22,7 @@ services:
     expose:
       - "8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Database=pawmatch;Username=postgres;Password=mandaci12
       - GoogleDrive__CredentialsPath=/app/credentials/credentials.json
     volumes:

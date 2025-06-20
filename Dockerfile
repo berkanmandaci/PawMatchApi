@@ -4,10 +4,10 @@ WORKDIR /src
 
 # Sadece proje dosyalarını kopyala. Bunlar nadiren değişir.
 COPY PawMatch.sln .
-COPY PawMatch.Api/PawMatch.Api.csproj api/PawMatch.Api/
-COPY PawMatch.Application/PawMatch.Application.csproj api/PawMatch.Application/
-COPY PawMatch.Domain/PawMatch.Domain.csproj api/PawMatch.Domain/
-COPY PawMatch.Infrastructure/PawMatch.Infrastructure.csproj api/PawMatch.Infrastructure/
+COPY api/PawMatch.Api/PawMatch.Api.csproj api/PawMatch.Api/
+COPY api/PawMatch.Application/PawMatch.Application.csproj api/PawMatch.Application/
+COPY api/PawMatch.Domain/PawMatch.Domain.csproj api/PawMatch.Domain/
+COPY api/PawMatch.Infrastructure/PawMatch.Infrastructure.csproj api/PawMatch.Infrastructure/
 # ... diğer projeleriniz varsa onlar da eklenecek ...
 
 # Bu katman sadece .csproj dosyaları değiştiğinde yeniden çalışır.
@@ -15,7 +15,7 @@ RUN dotnet restore PawMatch.sln
 
 # Şimdi kodun geri kalanını kopyala
 COPY . .
-WORKDIR "/src/PawMatch.Api"
+WORKDIR "/src/api/PawMatch.Api"
 RUN dotnet build "PawMatch.Api.csproj" -c Release -o /app/build
 
 # Stage 2: Uygulamayı yayınla (publish)
@@ -34,4 +34,4 @@ WORKDIR /app
 COPY --from=final /app/publish .
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
-# ENTRYPOINT satırını kaldırıyorum, komut docker-compose'dan alınacak. 
+# ENTRYPOINT satırını kaldırıyorum, komut docker-compose'dan alınacak.

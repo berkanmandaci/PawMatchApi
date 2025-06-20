@@ -12,7 +12,7 @@ using PawMatch.Infrastructure;
 namespace PawMatch.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250617224635_InitialCreate")]
+    [Migration("20250620234331_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

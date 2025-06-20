@@ -80,14 +80,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowWebApp",
         policy => policy
             .WithOrigins(
-                "http://localhost:59725",
-                "http://localhost:8080",
-                "http://localhost:3000",
-                "http://89.168.25.73",
-                "https://89.168.25.73",
+                "https://api.sftysw.com",
                 "https://sftysw.com",
-                "https://www.sftysw.com",
-                "https://api.sftysw.com"
+                "https://www.sftysw.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -133,7 +128,7 @@ if (app.Environment.IsDevelopment())
 // CORS middleware'i authentication'dan önce ekle
 app.UseCors("AllowWebApp");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

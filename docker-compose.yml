@@ -1,15 +1,28 @@
 version: '3.8'
 
 services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
   api:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-      
+    restart: unless-stopped
+    expose:
+      - "8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=db;Database=pawmatch;Username=postgres;Password=mandaci12
       - GoogleDrive__CredentialsPath=/app/credentials/credentials.json
     volumes:
@@ -20,6 +33,7 @@ services:
 
   db:
     image: postgres:15
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=pawmatch
       - POSTGRES_USER=postgres
@@ -27,8 +41,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - "5433:5432" 
-      
+      - "5433:5432"
 
 volumes:
   db-data:
+  caddy_data:
+  caddy_config:

@@ -2,20 +2,21 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Sadece proje dosyalarını kopyala. Bunlar nadiren değişir.
-COPY PawMatch.sln .
-COPY api/PawMatch.Api/PawMatch.Api.csproj api/PawMatch.Api/
-COPY api/PawMatch.Application/PawMatch.Application.csproj api/PawMatch.Application/
-COPY api/PawMatch.Domain/PawMatch.Domain.csproj api/PawMatch.Domain/
-COPY api/PawMatch.Infrastructure/PawMatch.Infrastructure.csproj api/PawMatch.Infrastructure/
-# ... diğer projeleriniz varsa onlar da eklenecek ...
+# Sadece proje ve çözüm dosyalarını kopyala.
+# Bu yollar build context'e (api/ klasörü) göreceli olmalıdır.
+COPY ["PawMatch.sln", "."]
+COPY ["PawMatch.Api/PawMatch.Api.csproj", "PawMatch.Api/"]
+COPY ["PawMatch.Application/PawMatch.Application.csproj", "PawMatch.Application/"]
+COPY ["PawMatch.Domain/PawMatch.Domain.csproj", "PawMatch.Domain/"]
+COPY ["PawMatch.Infrastructure/PawMatch.Infrastructure.csproj", "PawMatch.Infrastructure/"]
+COPY ["PawMatch.Tests/PawMatch.Tests.csproj", "PawMatch.Tests/"]
 
-# Bu katman sadece .csproj dosyaları değiştiğinde yeniden çalışır.
-RUN dotnet restore PawMatch.sln
+# Bu katman sadece .csproj veya .sln dosyaları değiştiğinde yeniden çalışır.
+RUN dotnet restore "PawMatch.sln"
 
 # Şimdi kodun geri kalanını kopyala
 COPY . .
-WORKDIR "/src/api/PawMatch.Api"
+WORKDIR "/src/PawMatch.Api"
 RUN dotnet build "PawMatch.Api.csproj" -c Release -o /app/build
 
 # Stage 2: Uygulamayı yayınla (publish)

@@ -48,14 +48,6 @@ namespace PawMatch.Infrastructure
                     db.Pets.Add(pet1);
                     db.SaveChanges();
 
-                    var photo1 = new Photo { FileName = "ali1.jpg", GoogleDriveFileId = "dummy-file-id-1", UploadDate = DateTime.UtcNow, UserId = user1.Id };
-                    var photo2 = new Photo { FileName = "boncuk1.jpg", GoogleDriveFileId = "dummy-file-id-2", UploadDate = DateTime.UtcNow, PetId = pet1.Id };
-                    
-                    var user1Photo = new Photo { FileName = "testphoto.jpg", GoogleDriveFileId = "user1-test-photo-id", UploadDate = DateTime.UtcNow, UserId = user1.Id };
-                    var user2Photo = new Photo { FileName = "testphoto.jpg", GoogleDriveFileId = "user2-test-photo-id", UploadDate = DateTime.UtcNow, UserId = user2.Id };
-
-                    db.Photos.AddRange(photo1, photo2, user1Photo, user2Photo);
-                    db.SaveChanges();
                 }
             }
         }
